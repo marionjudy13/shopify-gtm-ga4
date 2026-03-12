@@ -1,0 +1,3990 @@
+<!doctype html>
+<!-- saved from url=(0071)file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#overview -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GTM + Shopify Custom Pixel Setup Guide</title>
+    <style>
+      :root {
+        --bg: #0b1117;
+        --surface: #121c26;
+        --surface2: #192632;
+        --border: #253545;
+        --accent: #0080ba;
+        --accent2: #4db8d9;
+        --text: #e0e8f0;
+        --muted: #7e96aa;
+        --warn: #e8a838;
+        --danger: #e05555;
+        --success: #4db8d9;
+        --code-bg: #0a0f16;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
+      }
+
+      /* ── Layout ── */
+      .layout {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      nav {
+        width: 260px;
+        min-width: 260px;
+        background: var(--surface);
+        border-right: 1px solid var(--border);
+        padding: 32px 0;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+      }
+
+      nav .logo {
+        padding: 0 24px 28px;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 20px;
+      }
+      nav .logo span {
+        font-size: 13px;
+        color: var(--muted);
+        display: block;
+        margin-top: 4px;
+      }
+      nav .logo strong {
+        font-size: 16px;
+        color: var(--text);
+      }
+
+      nav a {
+        display: block;
+        padding: 8px 24px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 13px;
+        border-left: 3px solid transparent;
+        transition: all 0.15s;
+      }
+      nav a:hover {
+        color: var(--text);
+        background: var(--surface2);
+      }
+      nav a.active {
+        color: var(--accent);
+        border-left-color: var(--accent);
+        background: rgba(0, 128, 186, 0.08);
+      }
+      nav .section-label {
+        padding: 16px 24px 6px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text);
+      }
+
+      main {
+        flex: 1;
+        max-width: 880px;
+        padding: 48px 56px;
+        overflow-x: hidden;
+      }
+
+      /* ── Hero ── */
+      .hero {
+        background: linear-gradient(135deg, rgba(0, 128, 186, 0.15), rgba(77, 184, 217, 0.08));
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 36px 40px;
+        margin-bottom: 48px;
+      }
+      .hero h1 {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      .hero h1 span {
+        color: var(--accent);
+      }
+      .hero p {
+        color: var(--muted);
+        font-size: 15px;
+        max-width: 600px;
+      }
+      .hero .tags {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
+      .hero .tag {
+        background: rgba(0, 128, 186, 0.15);
+        border: 1px solid rgba(0, 128, 186, 0.3);
+        color: var(--accent);
+        font-size: 12px;
+        padding: 3px 10px;
+        border-radius: 20px;
+      }
+
+      /* ── Sections ── */
+      section {
+        margin-bottom: 60px;
+      }
+      section h2 {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      section h2 .num {
+        width: 30px;
+        height: 30px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        flex-shrink: 0;
+      }
+
+      section h3 {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--accent2);
+        margin: 28px 0 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 12px;
+      }
+
+      p {
+        color: var(--muted);
+        margin-bottom: 12px;
+        font-size: 14px;
+      }
+      p strong {
+        color: var(--text);
+      }
+
+      /* ── Steps ── */
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .step {
+        display: flex;
+        gap: 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px 20px;
+        align-items: flex-start;
+      }
+      .step .step-num {
+        width: 26px;
+        height: 26px;
+        min-width: 26px;
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      .step .step-content {
+        flex: 1;
+      }
+      .step .step-content strong {
+        color: var(--text);
+        display: block;
+        margin-bottom: 4px;
+        font-size: 14px;
+      }
+      .step .step-content span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .step .step-content code {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        padding: 2px 7px;
+        border-radius: 4px;
+        font-family: "Fira Code", "Cascadia Code", monospace;
+        font-size: 12px;
+        color: var(--accent2);
+      }
+
+      /* ── Code blocks ── */
+      .code-wrap {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 16px 0;
+      }
+      .code-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 16px;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+      }
+      .code-header .lang {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .copy-btn {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 4px 12px;
+        border-radius: 5px;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.15s;
+      }
+      .copy-btn:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+
+      pre {
+        padding: 20px;
+        overflow-x: auto;
+        font-family: "Fira Code", "Cascadia Code", "Courier New", monospace;
+        font-size: 12.5px;
+        line-height: 1.65;
+        color: #c9d1d9;
+      }
+
+      /* syntax highlights */
+      .kw {
+        color: #ff7b72;
+      }
+      .fn {
+        color: #d2a8ff;
+      }
+      .str {
+        color: #a5d6ff;
+      }
+      .cmt {
+        color: #8b949e;
+        font-style: italic;
+      }
+      .num {
+        color: #79c0ff;
+      }
+      .obj {
+        color: #ffa657;
+      }
+      .prop {
+        color: #e3b341;
+      }
+
+      /* ── Callouts ── */
+      .callout {
+        border-radius: 10px;
+        padding: 14px 18px;
+        margin: 16px 0;
+        font-size: 13.5px;
+        display: flex;
+        gap: 10px;
+      }
+      .callout .icon {
+        font-size: 18px;
+        flex-shrink: 0;
+        line-height: 1.5;
+      }
+      .callout.warn {
+        background: rgba(232, 168, 56, 0.08);
+        border: 1px solid rgba(232, 168, 56, 0.25);
+        color: var(--warn);
+      }
+      .callout.tip {
+        background: rgba(77, 184, 217, 0.06);
+        border: 1px solid rgba(77, 184, 217, 0.2);
+        color: var(--accent2);
+      }
+      .callout.info {
+        background: rgba(0, 128, 186, 0.08);
+        border: 1px solid rgba(0, 128, 186, 0.25);
+        color: #6dc0e0;
+      }
+      .callout strong {
+        color: inherit;
+      }
+
+      /* ── Event table ── */
+      .events-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        margin: 16px 0;
+      }
+      .event-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 14px;
+      }
+      .event-card .shopify-event {
+        font-size: 11px;
+        color: var(--muted);
+        font-family: monospace;
+        margin-bottom: 6px;
+      }
+      .event-card .ga4-event {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--accent2);
+        font-family: monospace;
+      }
+      .event-card .desc {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      /* ── Testing checklist ── */
+      .checklist {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .checklist li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 13.5px;
+        color: var(--muted);
+      }
+      .checklist li .check {
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        border: 2px solid var(--border);
+        border-radius: 4px;
+        margin-top: 1px;
+      }
+
+      /* ── GTM config table ── */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+        margin: 16px 0;
+      }
+      th {
+        background: var(--surface2);
+        padding: 10px 14px;
+        text-align: left;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: var(--muted);
+        border-bottom: 1px solid var(--border);
+      }
+      td {
+        padding: 10px 14px;
+        border-bottom: 1px solid rgba(46, 51, 80, 0.5);
+        vertical-align: top;
+        color: var(--muted);
+      }
+      td code {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-size: 11.5px;
+        color: var(--accent2);
+        font-family: monospace;
+      }
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      /* ── Pill badge ── */
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .badge.green {
+        background: rgba(77, 184, 217, 0.15);
+        color: var(--success);
+        border: 1px solid rgba(77, 184, 217, 0.3);
+      }
+      .badge.purple {
+        background: rgba(0, 128, 186, 0.15);
+        color: #6dc0e0;
+        border: 1px solid rgba(0, 128, 186, 0.3);
+      }
+      .badge.orange {
+        background: rgba(232, 168, 56, 0.12);
+        color: var(--warn);
+        border: 1px solid rgba(232, 168, 56, 0.3);
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        main {
+          padding: 32px 24px;
+        }
+        .events-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <!-- ── SIDEBAR ── -->
+      <nav>
+        <div class="logo">
+          <strong>GTM &amp; GA4 × Shopify</strong>
+          <span>Setup &amp; Testing Guide</span>
+        </div>
+        <div class="section-label">Setup</div>
+        <a href="#overview" class="active">Overview</a>
+        <a href="#gtm-account">1. GTM Container</a>
+        <a href="#custom-pixel">2. Custom Pixel</a>
+        <a href="#pixel-code">3. Pixel Code</a>
+        <div class="section-label">GTM Config</div>
+        <a href="#dlv">4. Data Layer Variables</a>
+        <a href="#triggers">5. Triggers</a>
+        <a href="#google-tag">6. Google Tag</a>
+        <a href="#ga4-tags">7. GA4 Event Tags</a>
+        <a href="#custom-params">8. Custom Parameters</a>
+        <div class="section-label">User Tracking</div>
+        <a href="#user-id">9. User-ID</a>
+        <div class="section-label">Testing</div>
+        <a href="#testing">10. Testing</a>
+        <a href="#events-ref">Events Reference</a>
+        <div class="section-label">Analytics</div>
+        <a href="#ga4-admin">GA4 Admin Setup</a>
+        <a href="#metrics">GA4 Metrics Guide</a>
+        <div class="section-label">Reference</div>
+        <a href="#export-import" class="">Export &amp; Reuse</a>
+        <a href="#google-youtube-app" class="">Google &amp; YouTube App</a>
+        <a href="#third-party" class="">Third-Party Scripts</a>
+      </nav>
+
+      <!-- ── MAIN ── -->
+      <main>
+        <!-- Hero -->
+        <div class="hero">
+          <h1>
+            GTM &amp; GA4 ×
+            <span>Shopify</span>
+            Setup
+          </h1>
+          <p>
+            Full GA4 ecommerce tracking via Shopify Custom Pixels — covering page views, product views, add-to-cart,
+            checkout funnel, and purchases.
+          </p>
+        </div>
+
+        <!-- ── OVERVIEW ── -->
+        <section id="overview">
+          <h2>
+            <span class="num">✦</span>
+            Overview &amp; Architecture
+          </h2>
+          <p>
+            Shopify's
+            <strong>Custom Pixel</strong>
+            approach is the recommended method. It runs in a sandboxed iframe with access to all
+            <strong>Customer Events</strong>
+            — including secure checkout pages that theme injection cannot reach. It also integrates with Shopify's
+            consent API.
+          </p>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>Why Custom Pixel over theme.liquid?</strong>
+              <br />
+              Theme injection misses checkout events (checkout_started, payment, purchase) because Shopify's checkout is
+              hosted on a separate domain. Custom Pixels fire on every page including checkout.
+            </div>
+          </div>
+
+          <p>The flow works like this:</p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Shopify fires Customer Events</strong>
+                <span>— built-in events like page_viewed, product_added_to_cart, checkout_completed, etc.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Custom Pixel subscribes and pushes to dataLayer</strong>
+                <span>— your pixel code translates each event into GA4-formatted dataLayer objects.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>GTM processes the dataLayer</strong>
+                <span>
+                  — your GTM triggers fire based on event names and forward them to GA4, Meta Pixel, or any other tool.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <span class="icon">📐</span>
+            <div>
+              <strong>Recommended setup order:</strong>
+              This guide follows the correct build sequence —
+              <strong>Data Layer Variables → Triggers → Google Tag → GA4 Event Tags</strong>
+              . Creating variables and triggers first means they'll already be available in GTM's dropdown pickers when
+              you configure your tags.
+            </div>
+          </div>
+        </section>
+
+        <!-- ── GTM ACCOUNT ── -->
+        <section id="gtm-account">
+          <h2>
+            <span class="num">1</span>
+            Confirm GTM Container Setup
+          </h2>
+          <p>
+            Make sure you have your
+            <strong>Container ID</strong>
+            on hand (format:
+            <code>GTM-XXXXXXX</code>
+            ).
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">→</div>
+              <div class="step-content">
+                <strong>Go to tagmanager.google.com</strong>
+                <span>→ your account → find your Shopify container → copy the Container ID from the top bar.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>Important:</strong>
+              Make sure your GTM container is set to type
+              <strong>Web</strong>
+              , not Server. You'll replace
+              <code>GTM-XXXXXXX</code>
+              in the pixel code below with your real ID.
+            </div>
+          </div>
+        </section>
+
+        <!-- ── CUSTOM PIXEL SETUP ── -->
+        <section id="custom-pixel">
+          <h2>
+            <span class="num">2</span>
+            Create the Shopify Custom Pixel
+          </h2>
+          <p>
+            In your Shopify Admin, navigate to
+            <strong>Settings → Customer events → Add custom pixel</strong>
+            .
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Open Shopify Admin</strong>
+                <span>
+                  → click
+                  <code>Settings</code>
+                  (bottom-left gear icon)
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Click "Customer events"</strong>
+                <span>in the left sidebar</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Click "Add custom pixel"</strong>
+                <span>
+                  — give it a name like
+                  <code>GTM - GA4 Ecommerce</code>
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Paste the pixel code</strong>
+                <span>from Section 3 into the code editor</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>Set "Customer privacy" to</strong>
+                <code>Not required</code>
+                <span>— unless you're using a consent management platform. You can restrict this later.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">6</div>
+              <div class="step-content">
+                <strong>Click "Save" then "Connect"</strong>
+                <span>— the pixel will now be active on your store.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── PIXEL CODE ── -->
+        <section id="pixel-code">
+          <h2>
+            <span class="num">3</span>
+            The Custom Pixel Code
+          </h2>
+          <p>
+            Copy the entire block below and paste it into the Shopify Custom Pixel editor. Replace
+            <code>GTM-N5JP83PZ</code>
+            with your container ID if different.
+          </p>
+
+          <div class="callout info">
+            <span class="icon">📋</span>
+            <div>
+              This code handles 11 Shopify Customer Events, maps them to GA4-standard event names, and includes User-ID
+              tracking for logged-in customers — ready to be picked up by GTM triggers in the following sections.
+            </div>
+          </div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="lang">JavaScript — Shopify Custom Pixel</span>
+              <button class="copy-btn" onclick="copyCode('pixel-code-block')">Copy</button>
+            </div>
+            <pre
+              id="pixel-code-block"
+            ><span class="cmt">// ================================================================
+// SHOPIFY CUSTOM PIXEL — GTM + GA4 Ecommerce Integration
+// GTM Container: GTM-N5JP83PZ  |  GA4: G-CC1CKPKC9W
+// ================================================================</span>
+
+<span class="kw">const</span> <span class="prop">GTM_ID</span> = <span class="str">'GTM-N5JP83PZ'</span>;
+
+<span class="cmt">// Initialize dataLayer</span>
+<span class="obj">window</span>.<span class="prop">dataLayer</span> = <span class="obj">window</span>.<span class="prop">dataLayer</span> || [];
+
+<span class="cmt">// ── User-ID Tracking ─────────────────────────────────────────
+// Fires a user_identified event when a customer reaches checkout.
+// GTM picks this up and passes user_id to GA4 for cross-device attribution.</span>
+<span class="kw">let</span> <span class="prop">_userId</span> = <span class="kw">null</span>;
+
+<span class="kw">function</span> <span class="fn">identifyUser</span>(checkout) {
+  <span class="kw">const</span> rawId =
+    checkout?.<span class="prop">order</span>?.<span class="prop">customer</span>?.<span class="prop">id</span> ||
+    checkout?.<span class="prop">customer</span>?.<span class="prop">id</span>;
+
+  <span class="kw">if</span> (!rawId || _userId === rawId) <span class="kw">return</span>;
+
+  _userId = rawId;
+
+  <span class="kw">const</span> cleanId = <span class="fn">String</span>(rawId).<span class="fn">replace</span>(<span class="str">'gid://shopify/Customer/'</span>, <span class="str">''</span>);
+
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event: <span class="str">'user_identified'</span>,
+    user_id: cleanId
+  });
+}
+
+<span class="cmt">// ── Load GTM ──────────────────────────────────────────────────</span>
+<span class="kw">if</span> (!<span class="obj">window</span>.<span class="prop">gtmLoaded</span>) {
+  <span class="obj">window</span>.<span class="prop">gtmLoaded</span> = <span class="kw">true</span>;
+
+  (<span class="kw">function</span>(w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].<span class="fn">push</span>({ <span class="str">'gtm.start'</span>: <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">getTime</span>(), event: <span class="str">'gtm.js'</span> });
+    <span class="kw">var</span> f = d.<span class="fn">getElementsByTagName</span>(s)[<span class="num">0</span>];
+    <span class="kw">var</span> j = d.<span class="fn">createElement</span>(s);
+    <span class="kw">var</span> dl = l != <span class="str">'dataLayer'</span> ? <span class="str">'&amp;l='</span> + l : <span class="str">''</span>;
+    j.<span class="prop">async</span> = <span class="kw">true</span>;
+    j.<span class="prop">src</span> = <span class="str">'https://www.googletagmanager.com/gtm.js?id='</span> + i + dl;
+    f.<span class="prop">parentNode</span>.<span class="fn">insertBefore</span>(j, f);
+  })(<span class="obj">window</span>, <span class="obj">document</span>, <span class="str">'script'</span>, <span class="str">'dataLayer'</span>, GTM_ID);
+}
+
+<span class="cmt">// ── Helper: Format checkout line items into GA4 items array ──</span>
+<span class="kw">function</span> <span class="fn">formatLineItems</span>(lineItems) {
+  <span class="kw">return</span> (lineItems || []).<span class="fn">map</span>((item, index) =&gt; ({
+    item_id:      item.<span class="prop">variant</span>?.<span class="prop">sku</span> || item.<span class="prop">variant</span>?.<span class="prop">id</span> || item.<span class="prop">id</span>,
+    item_name:    item.<span class="prop">title</span> || item.<span class="prop">product</span>?.<span class="prop">title</span>,
+    item_variant: item.<span class="prop">variant</span>?.<span class="prop">title</span>,
+    item_brand:   item.<span class="prop">vendor</span> || item.<span class="prop">product</span>?.<span class="prop">vendor</span>,
+    price:        <span class="fn">parseFloat</span>(item.<span class="prop">variant</span>?.<span class="prop">price</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+    quantity:     item.<span class="prop">quantity</span> || <span class="num">1</span>,
+    index:        index
+  }));
+}
+
+<span class="cmt">// ── Page Viewed ──────────────────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'page_viewed'</span>, (event) =&gt; {
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:         <span class="str">'page_view'</span>,
+    page_location: event.<span class="prop">context</span>.<span class="prop">window</span>.<span class="prop">location</span>.<span class="prop">href</span>,
+    page_title:    event.<span class="prop">context</span>.<span class="prop">document</span>.<span class="prop">title</span>,
+    page_referrer: event.<span class="prop">context</span>.<span class="prop">document</span>.<span class="prop">referrer</span>
+  });
+});
+
+<span class="cmt">// ── Collection / Category Viewed ────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'collection_viewed'</span>, (event) =&gt; {
+  <span class="kw">const</span> col = event.<span class="prop">data</span>.<span class="prop">collection</span>;
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:          <span class="str">'view_item_list'</span>,
+    ecommerce: {
+      item_list_id:   col.<span class="prop">id</span>,
+      item_list_name: col.<span class="prop">title</span>,
+      items: (col.<span class="prop">productVariants</span> || []).<span class="fn">map</span>((v, i) =&gt; ({
+        item_id:      v.<span class="prop">sku</span> || v.<span class="prop">id</span>,
+        item_name:    v.<span class="prop">product</span>?.<span class="prop">title</span>,
+        item_variant: v.<span class="prop">title</span>,
+        item_brand:   v.<span class="prop">product</span>?.<span class="prop">vendor</span>,
+        price:        <span class="fn">parseFloat</span>(v.<span class="prop">price</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+        index:        i
+      }))
+    }
+  });
+});
+
+<span class="cmt">// ── Search Submitted ─────────────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'search_submitted'</span>, (event) =&gt; {
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:       <span class="str">'search'</span>,
+    search_term: event.<span class="prop">data</span>.<span class="prop">searchResult</span>.<span class="prop">query</span>
+  });
+});
+
+<span class="cmt">// ── Product Viewed ───────────────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'product_viewed'</span>, (event) =&gt; {
+  <span class="kw">const</span> v = event.<span class="prop">data</span>.<span class="prop">productVariant</span>;
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:     <span class="str">'view_item'</span>,
+    ecommerce: {
+      currency: v.<span class="prop">price</span>?.<span class="prop">currencyCode</span>,
+      value:    <span class="fn">parseFloat</span>(v.<span class="prop">price</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      items: [{
+        item_id:      v.<span class="prop">sku</span> || v.<span class="prop">id</span>,
+        item_name:    v.<span class="prop">product</span>?.<span class="prop">title</span>,
+        item_variant: v.<span class="prop">title</span>,
+        item_brand:   v.<span class="prop">product</span>?.<span class="prop">vendor</span>,
+        price:        <span class="fn">parseFloat</span>(v.<span class="prop">price</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+        quantity:     <span class="num">1</span>
+      }]
+    }
+  });
+});
+
+<span class="cmt">// ── Add to Cart ──────────────────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'product_added_to_cart'</span>, (event) =&gt; {
+  <span class="kw">const</span> line = event.<span class="prop">data</span>.<span class="prop">cartLine</span>;
+  <span class="kw">const</span> v    = line.<span class="prop">merchandise</span>;
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:     <span class="str">'add_to_cart'</span>,
+    ecommerce: {
+      currency: line.<span class="prop">cost</span>?.<span class="prop">totalAmount</span>?.<span class="prop">currencyCode</span>,
+      value:    <span class="fn">parseFloat</span>(line.<span class="prop">cost</span>?.<span class="prop">totalAmount</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      items: [{
+        item_id:      v.<span class="prop">sku</span> || v.<span class="prop">id</span>,
+        item_name:    v.<span class="prop">product</span>?.<span class="prop">title</span>,
+        item_variant: v.<span class="prop">title</span>,
+        item_brand:   v.<span class="prop">product</span>?.<span class="prop">vendor</span>,
+        price:        <span class="fn">parseFloat</span>(v.<span class="prop">price</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+        quantity:     line.<span class="prop">quantity</span>
+      }]
+    }
+  });
+});
+
+<span class="cmt">// ── Remove from Cart ─────────────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'product_removed_from_cart'</span>, (event) =&gt; {
+  <span class="kw">const</span> line = event.<span class="prop">data</span>.<span class="prop">cartLine</span>;
+  <span class="kw">const</span> v    = line.<span class="prop">merchandise</span>;
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:     <span class="str">'remove_from_cart'</span>,
+    ecommerce: {
+      currency: line.<span class="prop">cost</span>?.<span class="prop">totalAmount</span>?.<span class="prop">currencyCode</span>,
+      value:    <span class="fn">parseFloat</span>(line.<span class="prop">cost</span>?.<span class="prop">totalAmount</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      items: [{
+        item_id:      v.<span class="prop">sku</span> || v.<span class="prop">id</span>,
+        item_name:    v.<span class="prop">product</span>?.<span class="prop">title</span>,
+        item_variant: v.<span class="prop">title</span>,
+        price:        <span class="fn">parseFloat</span>(v.<span class="prop">price</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+        quantity:     line.<span class="prop">quantity</span>
+      }]
+    }
+  });
+});
+
+<span class="cmt">// ── Cart Viewed ──────────────────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'cart_viewed'</span>, (event) =&gt; {
+  <span class="kw">const</span> cart = event.<span class="prop">data</span>.<span class="prop">cart</span>;
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:     <span class="str">'view_cart'</span>,
+    ecommerce: {
+      currency: cart.<span class="prop">cost</span>?.<span class="prop">totalAmount</span>?.<span class="prop">currencyCode</span>,
+      value:    <span class="fn">parseFloat</span>(cart.<span class="prop">cost</span>?.<span class="prop">totalAmount</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      items:    (cart.<span class="prop">lines</span> || []).<span class="fn">map</span>((line, i) =&gt; ({
+        item_id:      line.<span class="prop">merchandise</span>?.<span class="prop">sku</span> || line.<span class="prop">merchandise</span>?.<span class="prop">id</span>,
+        item_name:    line.<span class="prop">merchandise</span>?.<span class="prop">product</span>?.<span class="prop">title</span>,
+        item_variant: line.<span class="prop">merchandise</span>?.<span class="prop">title</span>,
+        price:        <span class="fn">parseFloat</span>(line.<span class="prop">merchandise</span>?.<span class="prop">price</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+        quantity:     line.<span class="prop">quantity</span>,
+        index:        i
+      }))
+    }
+  });
+});
+
+<span class="cmt">// ── Checkout Started ─────────────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'checkout_started'</span>, (event) =&gt; {
+  <span class="kw">const</span> co = event.<span class="prop">data</span>.<span class="prop">checkout</span>;
+  <span class="fn">identifyUser</span>(co);
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:           <span class="str">'begin_checkout'</span>,
+    <span class="cmt">// ── Custom params (top-level so DLV variables can read them) ──</span>
+    customer_type:   (co.<span class="prop">order</span>?.<span class="prop">customer</span>?.<span class="prop">id</span> || co.<span class="prop">customer</span>?.<span class="prop">id</span>) ? <span class="str">'returning'</span> : <span class="str">'new'</span>,
+    coupon_code:     co.<span class="prop">discountApplications</span>?.[<span class="num">0</span>]?.<span class="prop">title</span> || <span class="str">''</span>,
+    ecommerce: {
+      currency: co.<span class="prop">currencyCode</span>,
+      value:    <span class="fn">parseFloat</span>(co.<span class="prop">totalPrice</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      coupon:   co.<span class="prop">discountApplications</span>?.[<span class="num">0</span>]?.<span class="prop">title</span> || <span class="str">''</span>,
+      items:    <span class="fn">formatLineItems</span>(co.<span class="prop">lineItems</span>)
+    }
+  });
+});
+
+<span class="cmt">// ── Shipping Info Submitted ──────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'checkout_shipping_info_submitted'</span>, (event) =&gt; {
+  <span class="kw">const</span> co = event.<span class="prop">data</span>.<span class="prop">checkout</span>;
+  <span class="fn">identifyUser</span>(co);
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:           <span class="str">'add_shipping_info'</span>,
+    <span class="cmt">// ── Custom params ──</span>
+    customer_type:   (co.<span class="prop">order</span>?.<span class="prop">customer</span>?.<span class="prop">id</span> || co.<span class="prop">customer</span>?.<span class="prop">id</span>) ? <span class="str">'returning'</span> : <span class="str">'new'</span>,
+    shipping_method: co.<span class="prop">shippingLine</span>?.<span class="prop">title</span> || <span class="str">''</span>,
+    coupon_code:     co.<span class="prop">discountApplications</span>?.[<span class="num">0</span>]?.<span class="prop">title</span> || <span class="str">''</span>,
+    ecommerce: {
+      currency:      co.<span class="prop">currencyCode</span>,
+      value:         <span class="fn">parseFloat</span>(co.<span class="prop">totalPrice</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      shipping_tier: co.<span class="prop">shippingLine</span>?.<span class="prop">title</span> || <span class="str">''</span>,
+      items:         <span class="fn">formatLineItems</span>(co.<span class="prop">lineItems</span>)
+    }
+  });
+});
+
+<span class="cmt">// ── Payment Info Submitted ───────────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'payment_info_submitted'</span>, (event) =&gt; {
+  <span class="kw">const</span> co = event.<span class="prop">data</span>.<span class="prop">checkout</span>;
+  <span class="fn">identifyUser</span>(co);
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:           <span class="str">'add_payment_info'</span>,
+    <span class="cmt">// ── Custom params ──</span>
+    customer_type:   (co.<span class="prop">order</span>?.<span class="prop">customer</span>?.<span class="prop">id</span> || co.<span class="prop">customer</span>?.<span class="prop">id</span>) ? <span class="str">'returning'</span> : <span class="str">'new'</span>,
+    shipping_method: co.<span class="prop">shippingLine</span>?.<span class="prop">title</span> || <span class="str">''</span>,
+    coupon_code:     co.<span class="prop">discountApplications</span>?.[<span class="num">0</span>]?.<span class="prop">title</span> || <span class="str">''</span>,
+    ecommerce: {
+      currency: co.<span class="prop">currencyCode</span>,
+      value:    <span class="fn">parseFloat</span>(co.<span class="prop">totalPrice</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      coupon:   co.<span class="prop">discountApplications</span>?.[<span class="num">0</span>]?.<span class="prop">title</span> || <span class="str">''</span>,
+      items:    <span class="fn">formatLineItems</span>(co.<span class="prop">lineItems</span>)
+    }
+  });
+});
+
+<span class="cmt">// ── Purchase / Order Completed ───────────────────────────────</span>
+analytics.<span class="fn">subscribe</span>(<span class="str">'checkout_completed'</span>, (event) =&gt; {
+  <span class="kw">const</span> co = event.<span class="prop">data</span>.<span class="prop">checkout</span>;
+  <span class="fn">identifyUser</span>(co);
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({ ecommerce: <span class="kw">null</span> });
+  <span class="obj">window</span>.<span class="prop">dataLayer</span>.<span class="fn">push</span>({
+    event:           <span class="str">'purchase'</span>,
+    <span class="cmt">// ── Custom params (top-level so DLV variables can read them) ──</span>
+    customer_type:   (co.<span class="prop">order</span>?.<span class="prop">customer</span>?.<span class="prop">id</span> || co.<span class="prop">customer</span>?.<span class="prop">id</span>) ? <span class="str">'returning'</span> : <span class="str">'new'</span>,
+    shipping_method: co.<span class="prop">shippingLine</span>?.<span class="prop">title</span> || <span class="str">''</span>,
+    coupon_code:     co.<span class="prop">discountApplications</span>?.[<span class="num">0</span>]?.<span class="prop">title</span> || <span class="str">''</span>,
+    ecommerce: {
+      transaction_id: (co.<span class="prop">order</span>?.<span class="prop">id</span> || co.<span class="prop">token</span> || <span class="str">''</span>).<span class="fn">replace</span>(<span class="str">'gid://shopify/Order/'</span>, <span class="str">''</span>),
+      value:          <span class="fn">parseFloat</span>(co.<span class="prop">totalPrice</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      tax:            <span class="fn">parseFloat</span>(co.<span class="prop">totalTax</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      shipping:       <span class="fn">parseFloat</span>(co.<span class="prop">shippingLine</span>?.<span class="prop">price</span>?.<span class="prop">amount</span> || <span class="num">0</span>),
+      currency:       co.<span class="prop">currencyCode</span>,
+      coupon:         co.<span class="prop">discountApplications</span>?.[<span class="num">0</span>]?.<span class="prop">title</span> || <span class="str">''</span>,
+      items:          <span class="fn">formatLineItems</span>(co.<span class="prop">lineItems</span>)
+    }
+  });
+});</pre>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <!-- ── STEP 4: DATA LAYER VARIABLES (MOVED BEFORE TAGS) ──── -->
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <section id="dlv">
+          <h2>
+            <span class="num">4</span>
+            Create Data Layer Variables
+          </h2>
+          <p>
+            Create these
+            <strong>before</strong>
+            creating tags — they'll be available in GTM's variable picker when you configure event parameters.
+          </p>
+
+          <h3>How to Create Each Variable</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content"><strong>Go to Variables → User-Defined Variables → New</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>
+                  Click "Variable Configuration" and choose the type:
+                  <code>Data Layer Variable</code>
+                </strong>
+                <span>
+                  — it's under the
+                  <strong>"Page Variables"</strong>
+                  category in the type picker
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Set the "Data Layer Variable Name"</strong>
+                <span>
+                  — this must match
+                  <em>exactly</em>
+                  what's pushed to the data layer by your Custom Pixel code (see table below)
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>
+                  Leave "Data Layer Version" set to
+                  <code>Version 2</code>
+                </strong>
+                <span>— this is the default and correct setting for GTM</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>Name the variable</strong>
+                <span>
+                  using the
+                  <code>DLV -</code>
+                  prefix (e.g.,
+                  <code>DLV - page_location</code>
+                  ) and click Save
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              <strong>Variable type: Data Layer Variable.</strong>
+              Every variable in this section uses the same type —
+              <code>Data Layer Variable</code>
+              (found under Page Variables in GTM's type picker). This type reads values from the
+              <code>window.dataLayer</code>
+              object that your Custom Pixel code pushes to.
+            </div>
+          </div>
+
+          <h3>Required Variables</h3>
+          <p>These are used by the Page View tag, Search tag, and the Google Tag's configuration parameter:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Variable Name (in GTM)</th>
+                <th>Variable Type</th>
+                <th>Data Layer Variable Name</th>
+                <th>Used By</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DLV - page_location</td>
+                <td><code>Data Layer Variable</code></td>
+                <td><code>page_location</code></td>
+                <td>GA4 - Page View tag</td>
+              </tr>
+              <tr>
+                <td>DLV - page_title</td>
+                <td><code>Data Layer Variable</code></td>
+                <td><code>page_title</code></td>
+                <td>GA4 - Page View tag</td>
+              </tr>
+              <tr>
+                <td>DLV - page_referrer</td>
+                <td><code>Data Layer Variable</code></td>
+                <td><code>page_referrer</code></td>
+                <td>GA4 - Page View tag</td>
+              </tr>
+              <tr>
+                <td>DLV - search_term</td>
+                <td><code>Data Layer Variable</code></td>
+                <td><code>search_term</code></td>
+                <td>GA4 - Search tag</td>
+              </tr>
+              <tr>
+                <td>DLV - user_id</td>
+                <td><code>Data Layer Variable</code></td>
+                <td><code>user_id</code></td>
+                <td>Google Tag (config parameter)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Optional: Custom Ecommerce Variables</h3>
+          <p>
+            The pixel code in Step 3 already pushes these values to the data layer on checkout events. Create these
+            variables so your GA4 Event Tags can read them (see
+            <a
+              href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#custom-params"
+              style="color: var(--accent2)"
+            >
+              Section 8
+            </a>
+            for how to add them as event parameters).
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Variable Name (in GTM)</th>
+                <th>Variable Type</th>
+                <th>Data Layer Variable Name</th>
+                <th>Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DLV - coupon_code</td>
+                <td><code>Data Layer Variable</code></td>
+                <td><code>coupon_code</code></td>
+                <td>Track discount code usage on purchase</td>
+              </tr>
+              <tr>
+                <td>DLV - customer_type</td>
+                <td><code>Data Layer Variable</code></td>
+                <td><code>customer_type</code></td>
+                <td>Known vs. guest customer segmentation</td>
+              </tr>
+              <tr>
+                <td>DLV - shipping_method</td>
+                <td><code>Data Layer Variable</code></td>
+                <td><code>shipping_method</code></td>
+                <td>Track preferred shipping choices</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>Naming convention:</strong>
+              Prefixing all variables with
+              <code>DLV -</code>
+              makes them easy to identify and find in GTM's variable picker. The "Data Layer Variable Name" column must
+              match
+              <em>exactly</em>
+              what's pushed to the data layer by your Custom Pixel code.
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <!-- ── STEP 5: TRIGGERS (MOVED BEFORE TAGS) ──────────────── -->
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <section id="triggers">
+          <h2>
+            <span class="num">5</span>
+            Create Custom Event Triggers
+          </h2>
+          <p>
+            Each GA4 Event Tag needs a trigger that fires when the corresponding event is pushed to the data layer.
+            Create these
+            <strong>before</strong>
+            creating tags.
+          </p>
+
+          <h3>How to Create Each Trigger</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content"><strong>Go to Triggers → New</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>
+                  Click "Trigger Configuration" and choose the type:
+                  <code>Custom Event</code>
+                </strong>
+                <span>
+                  — it's under the
+                  <strong>"Other"</strong>
+                  category in the type picker
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Set the "Event name"</strong>
+                <span>
+                  — must match
+                  <em>exactly</em>
+                  what the Custom Pixel pushes to the data layer (see table below)
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>
+                  Leave "This trigger fires on" set to
+                  <code>All Custom Events</code>
+                </strong>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>Name the trigger</strong>
+                <span>
+                  using the
+                  <code>CE -</code>
+                  prefix (e.g.,
+                  <code>CE - Page View</code>
+                  ) and click Save
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Trigger Name</th>
+                <th>Trigger Type</th>
+                <th>Event Name (exact match)</th>
+                <th>Fires On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CE - Page View</td>
+                <td><code>Custom Event</code></td>
+                <td><code>page_view</code></td>
+                <td>All pages</td>
+              </tr>
+              <tr>
+                <td>CE - View Item List</td>
+                <td><code>Custom Event</code></td>
+                <td><code>view_item_list</code></td>
+                <td>Collection pages</td>
+              </tr>
+              <tr>
+                <td>CE - Search</td>
+                <td><code>Custom Event</code></td>
+                <td><code>search</code></td>
+                <td>Search results</td>
+              </tr>
+              <tr>
+                <td>CE - View Item</td>
+                <td><code>Custom Event</code></td>
+                <td><code>view_item</code></td>
+                <td>Product pages</td>
+              </tr>
+              <tr>
+                <td>CE - Add to Cart</td>
+                <td><code>Custom Event</code></td>
+                <td><code>add_to_cart</code></td>
+                <td>Any page</td>
+              </tr>
+              <tr>
+                <td>CE - Remove from Cart</td>
+                <td><code>Custom Event</code></td>
+                <td><code>remove_from_cart</code></td>
+                <td>Any page</td>
+              </tr>
+              <tr>
+                <td>CE - View Cart</td>
+                <td><code>Custom Event</code></td>
+                <td><code>view_cart</code></td>
+                <td>Cart page</td>
+              </tr>
+              <tr>
+                <td>CE - Begin Checkout</td>
+                <td><code>Custom Event</code></td>
+                <td><code>begin_checkout</code></td>
+                <td>Checkout</td>
+              </tr>
+              <tr>
+                <td>CE - Add Shipping Info</td>
+                <td><code>Custom Event</code></td>
+                <td><code>add_shipping_info</code></td>
+                <td>Checkout</td>
+              </tr>
+              <tr>
+                <td>CE - Add Payment Info</td>
+                <td><code>Custom Event</code></td>
+                <td><code>add_payment_info</code></td>
+                <td>Checkout</td>
+              </tr>
+              <tr>
+                <td>CE - Purchase</td>
+                <td><code>Custom Event</code></td>
+                <td><code>purchase</code></td>
+                <td>Order confirmation</td>
+              </tr>
+              <tr>
+                <td>CE - User Identified</td>
+                <td><code>Custom Event</code></td>
+                <td><code>user_identified</code></td>
+                <td>When customer is identified at checkout</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <!-- ── STEP 6: GOOGLE TAG (FORMERLY GA4 CONFIG) ──────────── -->
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <section id="google-tag">
+          <h2>
+            <span class="num">6</span>
+            Create the Google Tag
+          </h2>
+          <p>
+            The Google Tag (formerly called "GA4 Configuration") initializes the GA4 measurement session inside GTM. In
+            this setup it fires on your custom Shopify events and carries global parameters like
+            <strong>user_id</strong>
+            , while
+            <strong>send_page_view</strong>
+            is disabled so your dedicated GA4 Page View tag is the only thing sending
+            <code>page_view</code>
+            .
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>GTM → Tags → New</strong>
+                <span>
+                  → Click "Tag Configuration" and choose the type:
+                  <code>Google Tag</code>
+                  (under the
+                  <strong>"Google"</strong>
+                  category)
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Enter your Measurement ID:</strong>
+                <span>
+                  <code>G-XXXXXXXXXX</code>
+                  (from GA4 Admin → Data Streams)
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Under "Configuration Settings" → click "Add parameter"</strong>
+                <span>to add a new Configuration Parameter row:</span>
+              </div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Configuration Parameter</th>
+                <th>Value</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>user_id</code></td>
+                <td><code>{{DLV - user_id}}</code></td>
+                <td>Cross-device user stitching in GA4</td>
+              </tr>
+              <tr>
+                <td><code>traffic_type</code></td>
+                <td><code>{{Traffic Type}}</code></td>
+                <td>Flags internal traffic for filtering (see internal traffic filtering below)</td>
+              </tr>
+              <tr>
+                <td><code>send_page_view</code></td>
+                <td><code>false</code></td>
+                <td>
+                  Prevents duplicate
+                  <code>page_view</code>
+                  events when your dedicated GA4 Page View tag also fires
+                </td>
+              </tr>
+              <tr>
+                <td><code>debug_mode</code></td>
+                <td><code>{{Debug Mode}}</code></td>
+                <td>Allows events to appear in GA4 DebugView without publishing temporary changes to the container.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="steps" style="margin-top: 16px">
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Add two triggers:</strong>
+                <span>
+                  <code>CE - Page View</code>
+                  (fires on every page) AND
+                  <code>CE - User Identified</code>
+                  (re-fires when a user is identified mid-session at checkout)
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content"><strong>Save the tag</strong></div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>Why set user_id here instead of on individual tags?</strong>
+              Setting it as a Configuration Parameter on the Google Tag means it automatically gets sent with
+              <em>every</em>
+              event after the user is identified. You don't have to add it to each GA4 Event Tag individually. The same
+              pattern works for
+              <code>traffic_type</code>
+              , while
+              <code>send_page_view = false</code>
+              keeps the Google Tag from double-firing page views.
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>Don't use the built-in "All Pages" trigger.</strong>
+              Since GTM loads inside the Custom Pixel sandbox, using the custom
+              <code>page_view</code>
+              event trigger (
+              <code>CE - Page View</code>
+              ) is more reliable than the built-in All Pages trigger. Keeping the Google Tag on
+              <code>CE - Page View</code>
+              plus
+              <code>CE - User Identified</code>
+              also lets it re-read
+              <code>user_id</code>
+              mid-session.
+            </div>
+          </div>
+
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              <strong>Enable Reporting Identity in GA4:</strong>
+              After adding the user_id, go to
+              <strong>GA4 Admin → Reporting Identity</strong>
+              and set it to
+              <strong>"Blended"</strong>
+              or
+              <strong>"Observed"</strong>
+              — otherwise GA4 won't use the User-ID for cross-device reporting even if it's being sent.
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <!-- ── STEP 7: GA4 EVENT TAGS ────────────────────────────── -->
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <section id="ga4-tags">
+          <h2>
+            <span class="num">7</span>
+            Create GA4 Event Tags
+          </h2>
+          <p>
+            For each tag: go to
+            <strong>Tags → New</strong>
+            → click "Tag Configuration" and choose the type:
+            <code>Google Analytics: GA4 Event</code>
+            (under the
+            <strong>"Google Analytics"</strong>
+            category). There are two types of configuration — tags with
+            <strong>manual parameters</strong>
+            (non-ecommerce events) and tags that use the
+            <strong>automatic ecommerce checkbox</strong>
+            .
+          </p>
+
+          <h3>Non-Ecommerce Tags (Manual Parameters)</h3>
+          <p>
+            These tags require you to explicitly map parameters from the Data Layer Variables you created in Step 4.
+          </p>
+
+          <h3 style="color: var(--text); text-transform: none; letter-spacing: 0; font-size: 14px">GA4 - Page View</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Setting</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tag Type</td>
+                <td>
+                  <code>Google Analytics: GA4 Event</code>
+                  <span style="color: var(--muted); font-size: 11px">(under "Google Analytics" in type picker)</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Measurement ID</td>
+                <td>
+                  <code>G-XXXXXXXXXX</code>
+                  (or select your Google Tag from the dropdown)
+                </td>
+              </tr>
+              <tr>
+                <td>Event Name</td>
+                <td><code>page_view</code></td>
+              </tr>
+              <tr>
+                <td>Trigger</td>
+                <td><code>CE - Page View</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 12px"><strong>Event Parameters:</strong></p>
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Name</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>page_location</code></td>
+                <td><code>{{DLV - page_location}}</code></td>
+              </tr>
+              <tr>
+                <td><code>page_title</code></td>
+                <td><code>{{DLV - page_title}}</code></td>
+              </tr>
+              <tr>
+                <td><code>page_referrer</code></td>
+                <td><code>{{DLV - page_referrer}}</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 style="color: var(--text); text-transform: none; letter-spacing: 0; font-size: 14px; margin-top: 28px">
+            GA4 - Search
+          </h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Setting</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tag Type</td>
+                <td>
+                  <code>Google Analytics: GA4 Event</code>
+                  <span style="color: var(--muted); font-size: 11px">(same type as above)</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Event Name</td>
+                <td><code>search</code></td>
+              </tr>
+              <tr>
+                <td>Trigger</td>
+                <td><code>CE - Search</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top: 12px"><strong>Event Parameters:</strong></p>
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Name</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>search_term</code></td>
+                <td><code>{{DLV - search_term}}</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Ecommerce Tags (Automatic via Data Layer)</h3>
+          <p>
+            These tags do
+            <strong>NOT</strong>
+            need manually added parameters for standard ecommerce data. Instead, check
+            <strong>"Send Ecommerce data"</strong>
+            and select
+            <strong>"Data Layer"</strong>
+            as the source. GTM automatically pulls the entire
+            <code>ecommerce</code>
+            object (items array, value, currency, transaction_id, etc.).
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Tag Name</th>
+                <th>Tag Type</th>
+                <th>Event Name</th>
+                <th>Parameters</th>
+                <th>Trigger</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GA4 - View Item</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>view_item</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - View Item</td>
+              </tr>
+              <tr>
+                <td>GA4 - View Item List</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>view_item_list</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - View Item List</td>
+              </tr>
+              <tr>
+                <td>GA4 - Add to Cart</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>add_to_cart</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - Add to Cart</td>
+              </tr>
+              <tr>
+                <td>GA4 - Remove from Cart</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>remove_from_cart</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - Remove from Cart</td>
+              </tr>
+              <tr>
+                <td>GA4 - View Cart</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>view_cart</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - View Cart</td>
+              </tr>
+              <tr>
+                <td>GA4 - Begin Checkout</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>begin_checkout</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - Begin Checkout</td>
+              </tr>
+              <tr>
+                <td>GA4 - Add Shipping Info</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>add_shipping_info</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - Add Shipping Info</td>
+              </tr>
+              <tr>
+                <td>GA4 - Add Payment Info</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>add_payment_info</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - Add Payment Info</td>
+              </tr>
+              <tr>
+                <td>GA4 - Purchase</td>
+                <td><code>GA4 Event</code></td>
+                <td><code>purchase</code></td>
+                <td>
+                  <code>ecommerce</code>
+                  → all fields
+                </td>
+                <td>CE - Purchase</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>For each ecommerce tag:</strong>
+              In the tag configuration, check
+              <strong>"Send Ecommerce data"</strong>
+              and select
+              <strong>"Data Layer"</strong>
+              as the source under the Ecommerce section. This automatically picks up the
+              <code>ecommerce</code>
+              object you push to dataLayer — no need to map individual parameters manually.
+            </div>
+          </div>
+
+          <h3>Publish your GTM Container</h3>
+          <p>
+            Once all tags and triggers are set up, go to
+            <strong>GTM → Submit → Publish</strong>
+            . Give the version a meaningful name like
+            <code>v1 - Shopify GA4 Ecommerce</code>
+            .
+          </p>
+        </section>
+
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <!-- ── STEP 8: CUSTOM ECOMMERCE PARAMETERS ───────────────── -->
+        <!-- ══════════════════════════════════════════════════════════ -->
+        <section id="custom-params">
+          <h2>
+            <span class="num">8</span>
+            Custom Ecommerce Parameters
+          </h2>
+          <p>
+            You can add manual event parameters
+            <strong>alongside</strong>
+            the ecommerce checkbox — both work together. The ecommerce data still flows automatically from the data
+            layer, and your custom parameters get sent on top of it.
+          </p>
+          <p>
+            The Custom Pixel code in Step 3 already pushes
+            <code>customer_type</code>
+            ,
+            <code>shipping_method</code>
+            , and
+            <code>coupon_code</code>
+            as
+            <strong>top-level data layer properties</strong>
+            on every checkout event. Below is exactly which parameters to add to each tag.
+          </p>
+
+          <h3>GA4 - Begin Checkout</h3>
+          <p>
+            Add these under
+            <strong>Event Parameters</strong>
+            (keep "Send Ecommerce data → Data Layer" enabled):
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Name</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>coupon_code</code></td>
+                <td><code>{{DLV - coupon_code}}</code></td>
+              </tr>
+              <tr>
+                <td><code>customer_type</code></td>
+                <td><code>{{DLV - customer_type}}</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              No
+              <code>shipping_method</code>
+              here — the customer hasn't selected shipping yet at this stage.
+            </div>
+          </div>
+
+          <h3>GA4 - Add Shipping Info</h3>
+          <p>
+            Add these under
+            <strong>Event Parameters</strong>
+            :
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Name</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>coupon_code</code></td>
+                <td><code>{{DLV - coupon_code}}</code></td>
+              </tr>
+              <tr>
+                <td><code>customer_type</code></td>
+                <td><code>{{DLV - customer_type}}</code></td>
+              </tr>
+              <tr>
+                <td><code>shipping_method</code></td>
+                <td><code>{{DLV - shipping_method}}</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size: 12px; color: var(--muted)">This is the first event where shipping data is available.</p>
+
+          <h3>GA4 - Add Payment Info</h3>
+          <p>
+            Add these under
+            <strong>Event Parameters</strong>
+            :
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Name</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>coupon_code</code></td>
+                <td><code>{{DLV - coupon_code}}</code></td>
+              </tr>
+              <tr>
+                <td><code>customer_type</code></td>
+                <td><code>{{DLV - customer_type}}</code></td>
+              </tr>
+              <tr>
+                <td><code>shipping_method</code></td>
+                <td><code>{{DLV - shipping_method}}</code></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>GA4 - Purchase</h3>
+          <p>
+            Add these under
+            <strong>Event Parameters</strong>
+            :
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Parameter Name</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>coupon_code</code></td>
+                <td><code>{{DLV - coupon_code}}</code></td>
+              </tr>
+              <tr>
+                <td><code>customer_type</code></td>
+                <td><code>{{DLV - customer_type}}</code></td>
+              </tr>
+              <tr>
+                <td><code>shipping_method</code></td>
+                <td><code>{{DLV - shipping_method}}</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>This is the most important one</strong>
+              — it ties coupon usage, customer segment, and shipping preference directly to actual revenue.
+            </div>
+          </div>
+
+          <h3>Quick Reference: Parameters per Tag</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Tag</th>
+                <th><code>coupon_code</code></th>
+                <th><code>customer_type</code></th>
+                <th><code>shipping_method</code></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>GA4 - Begin Checkout</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>GA4 - Add Shipping Info</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>✓</td>
+              </tr>
+              <tr>
+                <td>GA4 - Add Payment Info</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>✓</td>
+              </tr>
+              <tr>
+                <td>GA4 - Purchase</td>
+                <td>✓</td>
+                <td>✓</td>
+                <td>✓</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>How the Pixel Determines Each Value</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Custom Param</th>
+                <th>Data Source</th>
+                <th>Logic</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>customer_type</code></td>
+                <td><code>co.order?.customer?.id</code></td>
+                <td>
+                  If a Shopify customer ID exists →
+                  <code>"returning"</code>
+                  , otherwise →
+                  <code>"new"</code>
+                </td>
+              </tr>
+              <tr>
+                <td><code>shipping_method</code></td>
+                <td><code>co.shippingLine?.title</code></td>
+                <td>
+                  Shopify's shipping method name (e.g., "Standard Shipping", "Express"). Empty string if not yet
+                  selected.
+                </td>
+              </tr>
+              <tr>
+                <td><code>coupon_code</code></td>
+                <td><code>co.discountApplications?.[0]?.title</code></td>
+                <td>The first discount code applied to the order. Empty string if none.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              <strong>
+                Note on
+                <code>coupon</code>
+                vs
+                <code>coupon_code</code>
+                :
+              </strong>
+              The
+              <code>coupon</code>
+              field
+              <em>inside</em>
+              the ecommerce object is GA4's standard schema field — it's picked up automatically by the "Send Ecommerce
+              data" checkbox. The
+              <code>coupon_code</code>
+              field is a
+              <em>top-level</em>
+              custom parameter that you can use for custom dimensions, audience building, and non-Google tags that read
+              from the data layer directly.
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>
+                These parameters won't appear in GA4 reports until you register them as custom dimensions.
+              </strong>
+              See
+              <a
+                href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#ga4-admin"
+                style="color: var(--warn)"
+              >
+                GA4 Admin Setup
+              </a>
+              below for the full list of things to configure in GA4.
+            </div>
+          </div>
+        </section>
+
+        <!-- ── USER-ID TRACKING ── -->
+        <section id="user-id">
+          <h2>
+            <span class="num">9</span>
+            User-ID Tracking
+          </h2>
+          <p>
+            User-ID lets GA4 stitch together sessions across devices for the same customer. It unlocks login-based
+            reporting, repeat buyer analysis, and accurate user counts. The pixel code and Google Tag setup from
+            previous steps already handle this — here's a summary of how it all connects.
+          </p>
+
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              <strong>How it works:</strong>
+              When a customer reaches checkout, Shopify can expose a customer ID on the checkout object. The pixel
+              extracts that ID, strips Shopify's GID prefix, pushes a
+              <code>user_identified</code>
+              event to the dataLayer, and GTM forwards the
+              <code>user_id</code>
+              field to GA4 on every subsequent hit in that session.
+            </div>
+          </div>
+
+          <h3>What's Already Set Up</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">✓</div>
+              <div class="step-content">
+                <strong>Pixel code (Step 3)</strong>
+                <span>
+                  — The
+                  <code>identifyUser()</code>
+                  function is included and called on every checkout event. It pushes
+                  <code>user_identified</code>
+                  with
+                  <code>user_id</code>
+                  only — no email is exposed in the data layer.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">✓</div>
+              <div class="step-content">
+                <strong>Data Layer Variables (Step 4)</strong>
+                <span>
+                  —
+                  <code>DLV - user_id</code>
+                  is created to read from the data layer.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">✓</div>
+              <div class="step-content">
+                <strong>Trigger (Step 5)</strong>
+                <span>
+                  —
+                  <code>CE - User Identified</code>
+                  trigger fires on the
+                  <code>user_identified</code>
+                  event.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">✓</div>
+              <div class="step-content">
+                <strong>Google Tag (Step 6)</strong>
+                <span>
+                  —
+                  <code>user_id</code>
+                  is set as a configuration parameter on the Google Tag, and both
+                  <code>CE - Page View</code>
+                  and
+                  <code>CE - User Identified</code>
+                  are attached as triggers.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <h3>How identifyUser() Works</h3>
+          <p>
+            This function is called at the top of each checkout event subscriber (
+            <code>checkout_started</code>
+            ,
+            <code>checkout_shipping_info_submitted</code>
+            ,
+            <code>payment_info_submitted</code>
+            ,
+            <code>checkout_completed</code>
+            ). It extracts the customer ID from
+            <code>checkout.order.customer.id</code>
+            or
+            <code>checkout.customer.id</code>
+            , strips Shopify's GID prefix, and pushes a
+            <code>user_identified</code>
+            event. The
+            <code>_userId</code>
+            guard prevents duplicate pushes within the same session.
+          </p>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>Test it:</strong>
+              Place a test order, then check GA4 DebugView. You should see a
+              <code>user_identified</code>
+              event with a
+              <code>user_id</code>
+              parameter, and subsequent events in that session should also carry the
+              <code>user_id</code>
+              .
+            </div>
+          </div>
+        </section>
+
+        <!-- ── TESTING ── -->
+        <section id="testing">
+          <h2>
+            <span class="num">10</span>
+            Testing Your Setup
+          </h2>
+          <p>Use these two methods to verify everything is firing correctly before calling it done.</p>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>GTM Preview Mode does not work with Custom Pixels.</strong>
+              Because Custom Pixels run in a sandboxed iFrame, GTM's Tag Assistant cannot connect to the container. Do
+              not waste time trying to get it working — use the two methods below instead.
+            </div>
+          </div>
+
+          <h3>Method A — GA4 DebugView (Recommended)</h3>
+          <p>
+            This is the most reliable way to verify events end-to-end, from your Custom Pixel all the way through GTM
+            and into GA4.
+          </p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>In your Google Tag (Step 6), temporarily add a Configuration Parameter:</strong>
+                <span>
+                  Parameter Name
+                  <code>debug_mode</code>
+                  → Value
+                  <code>true</code>
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content"><strong>Publish the GTM container</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Browse your store</strong>
+                <span>
+                  — trigger a page view, view a product, add to cart, start checkout, complete a test purchase
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>In GA4 → Admin → DebugView</strong>
+                <span>— you should see events appear in real-time within 1–2 minutes</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>Click each event</strong>
+                <span>
+                  — verify the parameters (items array, value, currency, transaction_id, customer_type, shipping_method,
+                  coupon_code) are populated correctly
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>
+                Remember to remove
+                <code>debug_mode</code>
+              </strong>
+              from your Google Tag and re-publish before going live. Leaving it on will flood DebugView and may affect
+              data collection. This is a temporary testing parameter only.
+            </div>
+          </div>
+
+          <h3>Method B — Browser Console (dataLayer Inspection)</h3>
+          <p>
+            Use this to inspect the raw data layer pushes before they reach GA4. Useful for debugging data structure
+            issues.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Open Chrome DevTools</strong>
+                <span>(F12 or right-click → Inspect)</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>In the Console tab, find the context dropdown</strong>
+                <span>
+                  — it's at the top of the Console and defaults to
+                  <code>top</code>
+                  . Click it to see a list of all iFrame contexts.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>
+                  Look for entries starting with
+                  <code>web-pixel-sandbox-CUSTOM-</code>
+                </strong>
+                <span>
+                  — there may be multiple. Your GTM pixel is the one with a numeric ID (not "shopify"). Select it.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>
+                  Type
+                  <code>window.dataLayer</code>
+                </strong>
+                <span>and press Enter. You should see an array of event objects.</span>
+              </div>
+            </div>
+          </div>
+
+          <p>Useful console commands once you're in the right context:</p>
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="lang">JavaScript — Console</span>
+              <button class="copy-btn" onclick="copyCode('console-code')">Copy</button>
+            </div>
+            <pre id="console-code"><span class="cmt">// View all dataLayer pushes so far</span>
+<span class="obj">window</span>.<span class="prop">dataLayer</span>
+
+<span class="cmt">// Filter for ecommerce events only</span>
+<span class="obj">window</span>.<span class="prop">dataLayer</span>
+  .<span class="fn">filter</span>(e =&gt; e.<span class="prop">ecommerce</span>)
+  .<span class="fn">forEach</span>(e =&gt; <span class="obj">console</span>.<span class="fn">log</span>(e.<span class="prop">event</span>, e.<span class="prop">ecommerce</span>))
+
+<span class="cmt">// Check for custom params on checkout events</span>
+<span class="obj">window</span>.<span class="prop">dataLayer</span>
+  .<span class="fn">filter</span>(e =&gt; e.<span class="prop">customer_type</span>)
+  .<span class="fn">forEach</span>(e =&gt; <span class="obj">console</span>.<span class="fn">log</span>(e.<span class="prop">event</span>, {
+    customer_type:   e.<span class="prop">customer_type</span>,
+    shipping_method: e.<span class="prop">shipping_method</span>,
+    coupon_code:     e.<span class="prop">coupon_code</span>
+  }))</pre>
+          </div>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>How to identify the right iFrame:</strong>
+              When you select the correct
+              <code>CUSTOM</code>
+              context and type
+              <code>window.dataLayer</code>
+              , the first entry should be
+              <code>{gtm.start: ..., event: 'gtm.js'}</code>
+              containing your GTM container ID. If you see an empty array or no dataLayer, try the other CUSTOM context.
+            </div>
+          </div>
+
+          <h3>Testing Checklist</h3>
+          <ul class="checklist">
+            <li>
+              <div class="check"></div>
+              <code>page_view</code>
+              fires on every page navigation with
+              <code>page_location</code>
+              ,
+              <code>page_title</code>
+              ,
+              <code>page_referrer</code>
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>view_item_list</code>
+              fires on collection pages with item list data
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>search</code>
+              fires on site search with correct
+              <code>search_term</code>
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>view_item</code>
+              fires on product detail pages with correct item data
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>add_to_cart</code>
+              fires when a product is added with correct price &amp; quantity
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>begin_checkout</code>
+              fires when the checkout flow is initiated
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>add_shipping_info</code>
+              fires after shipping method is selected
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>add_payment_info</code>
+              fires after payment method is entered
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>purchase</code>
+              fires on the order confirmation page with correct
+              <code>transaction_id</code>
+              ,
+              <code>value</code>
+              ,
+              <code>tax</code>
+              , and
+              <code>shipping</code>
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>user_identified</code>
+              fires during checkout and
+              <code>user_id</code>
+              appears in GA4 DebugView
+            </li>
+            <li>
+              <div class="check"></div>
+              Custom params (
+              <code>customer_type</code>
+              ,
+              <code>shipping_method</code>
+              ,
+              <code>coupon_code</code>
+              ) appear on checkout/purchase events
+            </li>
+            <li>
+              <div class="check"></div>
+              No duplicate events (check GA4 DebugView for double page_view or purchase events)
+            </li>
+            <li>
+              <div class="check"></div>
+              Google Analytics disconnected from Google &amp; YouTube app (prevents duplicates)
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>debug_mode</code>
+              removed from Google Tag before final publish
+            </li>
+            <li>
+              <div class="check"></div>
+              GTM container version is published
+            </li>
+          </ul>
+        </section>
+
+        <!-- ── EVENTS REFERENCE ── -->
+        <section id="events-ref">
+          <h2>
+            <span class="num">✦</span>
+            Events Reference
+          </h2>
+          <p>All 12 events this pixel subscribes to:</p>
+
+          <div class="events-grid">
+            <div class="event-card">
+              <div class="shopify-event">page_viewed</div>
+              <div class="ga4-event">page_view</div>
+              <div class="desc">Every page load — home, PDP, collection, blog, etc.</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">collection_viewed</div>
+              <div class="ga4-event">view_item_list</div>
+              <div class="desc">User views a category/collection page</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">search_submitted</div>
+              <div class="ga4-event">search</div>
+              <div class="desc">User submits a search query</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">product_viewed</div>
+              <div class="ga4-event">view_item</div>
+              <div class="desc">User lands on a product detail page</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">product_added_to_cart</div>
+              <div class="ga4-event">add_to_cart</div>
+              <div class="desc">Item added to shopping cart</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">product_removed_from_cart</div>
+              <div class="ga4-event">remove_from_cart</div>
+              <div class="desc">Item removed from shopping cart</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">cart_viewed</div>
+              <div class="ga4-event">view_cart</div>
+              <div class="desc">User opens or views the cart page</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">checkout_started</div>
+              <div class="ga4-event">begin_checkout</div>
+              <div class="desc">User initiates the checkout flow</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">checkout_shipping_info_submitted</div>
+              <div class="ga4-event">add_shipping_info</div>
+              <div class="desc">Shipping method selected in checkout</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">payment_info_submitted</div>
+              <div class="ga4-event">add_payment_info</div>
+              <div class="desc">Payment details entered in checkout</div>
+            </div>
+            <div class="event-card">
+              <div class="shopify-event">checkout_completed</div>
+              <div class="ga4-event">purchase</div>
+              <div class="desc">Order confirmed — with transaction_id, value, tax, shipping</div>
+            </div>
+          </div>
+
+          <div class="callout tip" style="margin-top: 24px">
+            <span class="icon">🚀</span>
+            <div>
+              <strong>Want to add more channels?</strong>
+              Since everything routes through GTM's dataLayer, you can add Meta Pixel, Pinterest, TikTok, or Klaviyo
+              tags in GTM — no changes needed to the Shopify pixel code. Just add new tags firing on the same custom
+              event triggers.
+            </div>
+          </div>
+        </section>
+
+        <!-- ── GA4 ADMIN SETUP ── -->
+        <section id="ga4-admin">
+          <h2>
+            <span class="num">✦</span>
+            GA4 Admin Setup
+          </h2>
+          <p>
+            Your GTM tags are sending data — but GA4 needs to be configured to
+            <strong>receive and report on</strong>
+            that data properly. Complete these steps in
+            <strong>GA4 Admin</strong>
+            before expecting to see custom data in reports.
+          </p>
+
+          <h3>1. Register Custom Dimensions</h3>
+          <p>
+            Custom event parameters like
+            <code>customer_type</code>
+            ,
+            <code>shipping_method</code>
+            , and
+            <code>coupon_code</code>
+            <strong>will not appear in GA4 reports</strong>
+            until you register them as custom dimensions. Without this step, GA4 receives the data but has nowhere to
+            display it.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content"><strong>Go to GA4 Admin → Custom Definitions → Custom Dimensions</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content"><strong>Click "Create custom dimension"</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Fill in each dimension</strong>
+                <span>
+                  using the table below — the "Event parameter" field must match exactly what your GTM tags send
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Dimension Name (display label)</th>
+                <th>Scope</th>
+                <th>Event Parameter</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Customer Type</td>
+                <td><code>Event</code></td>
+                <td><code>customer_type</code></td>
+                <td>Known vs. guest customer status</td>
+              </tr>
+              <tr>
+                <td>Shipping Method</td>
+                <td><code>Event</code></td>
+                <td><code>shipping_method</code></td>
+                <td>Delivery method selected</td>
+              </tr>
+              <tr>
+                <td>Coupon Code</td>
+                <td><code>Event</code></td>
+                <td><code>coupon_code</code></td>
+                <td>Discount code applied</td>
+              </tr>
+              <tr>
+                <td>Search Term</td>
+                <td><code>Event</code></td>
+                <td><code>search_term</code></td>
+                <td>Site search query</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>GA4 has a limit of 50 custom event-scoped dimensions</strong>
+              on standard properties (and 125 on 360). Check your current usage before adding new ones. Custom
+              dimensions only apply to data collected
+              <em>after</em>
+              they are created — they are not retroactive.
+            </div>
+          </div>
+
+          <h3>2. Enable Reporting Identity (User-ID)</h3>
+          <p>
+            This tells GA4 to use the
+            <code>user_id</code>
+            you're sending for cross-device session stitching.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content"><strong>Go to GA4 Admin → Reporting Identity</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Select "Blended"</strong>
+                <span>
+                  (recommended) — this uses User-ID when available, then Google Signals, then Device-ID as fallbacks
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content"><strong>Click Save</strong></div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              <strong>"Blended" vs "Observed":</strong>
+              Blended gives GA4 the most flexibility to de-duplicate users. "Observed" is stricter and only uses User-ID
+              or Google Signals. Either works — "Blended" is the safer default.
+            </div>
+          </div>
+
+          <h3>3. Define Internal Traffic</h3>
+          <p>Filter out your team's browsing so it doesn't skew reports.</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>
+                  Go to GA4 Admin → Data Streams → your stream → Configure Tag Settings → Show More → Define Internal
+                  Traffic
+                </strong>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Click "Create"</strong>
+                <span>
+                  and add a rule — name it (e.g., "Office IP"), set
+                  <code>traffic_type</code>
+                  value to
+                  <code>internal</code>
+                  , and enter your office IP addresses or CIDR range
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content"><strong>Go to GA4 Admin → Data Settings → Data Filters</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Find the "Internal Traffic" filter</strong>
+                <span>
+                  and change it from
+                  <code>Testing</code>
+                  to
+                  <code>Active</code>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>Leave the filter in "Testing" mode first</strong>
+              to verify it's catching the right traffic. In GA4 reports, add a comparison for
+              <code>Test data filter name</code>
+              = "Internal Traffic" to preview what would be excluded. Once you're confident it's correct, switch to
+              "Active."
+            </div>
+          </div>
+
+          <h3>4. Disable Enhanced Measurement (Selective)</h3>
+          <p>
+            GA4's Enhanced Measurement auto-collects certain events from the main page context. Some of these duplicate
+            what your Custom Pixel already tracks and should be turned off. Others provide useful data that your Custom
+            Pixel
+            <em>can't</em>
+            track from the sandbox, and should stay on.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content"><strong>Go to GA4 Admin → Data Streams → your stream</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content"><strong>Click the gear icon next to "Enhanced measurement"</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Turn off these three</strong>
+                <span>— they duplicate events your Custom Pixel already handles:</span>
+              </div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Setting</th>
+                <th>Action</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Page views</strong></td>
+                <td>🔴 Turn OFF</td>
+                <td>
+                  Your Custom Pixel fires
+                  <code>page_view</code>
+                  — this would double-count
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Scrolls</strong></td>
+                <td>🔴 Turn OFF</td>
+                <td>Fires from the main page but the sandbox can't correlate it properly — noisy data</td>
+              </tr>
+              <tr>
+                <td><strong>Site search</strong></td>
+                <td>🔴 Turn OFF</td>
+                <td>
+                  Your Custom Pixel fires
+                  <code>search</code>
+                  with
+                  <code>search_term</code>
+                  — this would create duplicate
+                  <code>view_search_results</code>
+                  events
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Outbound clicks</strong></td>
+                <td>🟢 Leave ON</td>
+                <td>Your Custom Pixel doesn't track outbound clicks — useful free data</td>
+              </tr>
+              <tr>
+                <td><strong>Form interactions</strong></td>
+                <td>🟢 Leave ON</td>
+                <td>Your Custom Pixel doesn't track forms — useful if you have a contact or quote request form</td>
+              </tr>
+              <tr>
+                <td><strong>Video engagement</strong></td>
+                <td>🟢 Leave ON</td>
+                <td>Auto-tracks YouTube embeds — no conflict with your ecommerce tracking</td>
+              </tr>
+              <tr>
+                <td><strong>File downloads</strong></td>
+                <td>🟢 Leave ON</td>
+                <td>Link click triggers don't work in the sandbox, so this is your only way to track file downloads</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>At minimum, turn off "Page views", "Scrolls", and "Site search"</strong>
+              — these will definitely duplicate with your GTM Custom Pixel setup and inflate your event counts.
+            </div>
+          </div>
+
+          <h3>5. Add Unwanted Referrals for Shopify Checkout</h3>
+          <p>
+            Shopify checkout can route users through additional domains like
+            <code>checkout.shopify.com</code>
+            and
+            <code>shop.app</code>
+            . Add these as unwanted referrals so GA4 keeps attribution on the original traffic source instead of
+            overwriting sessions mid-checkout.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>
+                  Go to GA4 Admin → Data Streams → your stream → Configure Tag Settings → Show More → List unwanted
+                  referrals
+                </strong>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Add these domains</strong>
+                <span>
+                  —
+                  <code>checkout.shopify.com</code>
+                  ,
+                  <code>shop.app</code>
+                  , and
+                  <code>pay.shopify.com</code>
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Save your changes</strong>
+                <span>— this preserves attribution across the checkout handoff</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              <strong>Do not add Shopify checkout domains to cross-domain measurement.</strong>
+              For this setup, the unwanted referral list is the correct fix.
+            </div>
+          </div>
+
+          <h3>6. Mark Key Events (formerly "Conversions")</h3>
+          <p>
+            Tell GA4 which events are business-critical so they appear in key event reports and can be imported into
+            Google Ads. GA4 renamed "Conversions" to
+            <strong>"Key events"</strong>
+            in 2024.
+          </p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Go to GA4 Admin → Events</strong>
+                <span>(wait 24–48 hours after setup for events to appear here)</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>You'll see two tabs: "Key events" and "Recent events"</strong>
+                <span>
+                  — the Key events tab shows events already marked. Click
+                  <strong>"Recent events"</strong>
+                  to find and mark new ones.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Click the star icon (☆) next to each event</strong>
+                <span>to toggle it as a key event:</span>
+              </div>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Mark as Key Event?</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>purchase</code></td>
+                <td>
+                  ★
+                  <strong>Yes</strong>
+                </td>
+                <td>Revenue tracking — this is your primary key event</td>
+              </tr>
+              <tr>
+                <td><code>begin_checkout</code></td>
+                <td>
+                  ★
+                  <strong>Yes</strong>
+                </td>
+                <td>Checkout initiation — critical for funnel analysis and Google Ads optimization</td>
+              </tr>
+              <tr>
+                <td><code>add_to_cart</code></td>
+                <td>★ Recommended</td>
+                <td>Useful for Google Ads mid-funnel bidding signals</td>
+              </tr>
+              <tr>
+                <td><code>add_payment_info</code></td>
+                <td>Optional</td>
+                <td>Useful for deep funnel analysis</td>
+              </tr>
+              <tr>
+                <td><code>view_item</code></td>
+                <td>Optional</td>
+                <td>Only if you want to optimize Google Ads for product page views</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>If you're running Google Ads:</strong>
+              Marking
+              <code>purchase</code>
+              and
+              <code>begin_checkout</code>
+              as key events lets you import them into Google Ads for Smart Bidding optimization. This is essential for
+              getting the most out of your ad spend.
+            </div>
+          </div>
+
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              <strong>Events not showing up?</strong>
+              It can take 24–48 hours after an event first fires for it to appear in the Events list. If you just set up
+              your tracking, come back tomorrow and check the "Recent events" tab again.
+            </div>
+          </div>
+
+          <h3>GA4 Admin Checklist</h3>
+          <ul class="checklist">
+            <li>
+              <div class="check"></div>
+              Custom dimensions registered:
+              <code>customer_type</code>
+              ,
+              <code>shipping_method</code>
+              ,
+              <code>coupon_code</code>
+              ,
+              <code>search_term</code>
+            </li>
+            <li>
+              <div class="check"></div>
+              Reporting Identity set to "Blended" (or "Observed")
+            </li>
+            <li>
+              <div class="check"></div>
+              Internal traffic rule created with office IP addresses
+            </li>
+            <li>
+              <div class="check"></div>
+              Internal traffic data filter set to "Testing" (then "Active" once verified)
+            </li>
+            <li>
+              <div class="check"></div>
+              Enhanced Measurement: Page views, Scrolls, and Site search turned off — Outbound clicks, Forms, Video,
+              File downloads left on
+            </li>
+            <li>
+              <div class="check"></div>
+              Unwanted referrals added:
+              <code>checkout.shopify.com</code>
+              ,
+              <code>shop.app</code>
+              ,
+              <code>pay.shopify.com</code>
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>purchase</code>
+              marked as key event
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>begin_checkout</code>
+              marked as key event
+            </li>
+            <li>
+              <div class="check"></div>
+              <code>add_to_cart</code>
+              marked as key event (recommended)
+            </li>
+          </ul>
+        </section>
+
+        <!-- ── GA4 METRICS GUIDE ── -->
+        <section id="metrics">
+          <h2>
+            <span class="num">✦</span>
+            GA4 Metrics Guide
+          </h2>
+          <p>Where to find each key business metric in GA4 once your tracking is fully set up:</p>
+
+          <h3>Active Users (Logged-in)</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Reports → User → User acquisition</strong>
+              <span>
+                — Filter by
+                <code>user_id is set</code>
+                to isolate only logged-in sessions. GA4 de-duplicates users across devices using the user_id you're now
+                sending.
+              </span>
+            </div>
+          </div>
+
+          <h3>Regular Buyers (2+ Purchases / 4 Weeks)</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Explore → Cohort Exploration</strong>
+              <span>
+                — Set cohort inclusion to
+                <code>purchase</code>
+                , returning condition to
+                <code>purchase</code>
+                , within a 28-day window. Or use
+                <strong>Segment Builder</strong>
+                : create a user segment where
+                <code>event_count for purchase ≥ 2</code>
+                within 28 days.
+              </span>
+            </div>
+          </div>
+
+          <h3>Average Cart Size</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Reports → Monetization → Ecommerce Purchases</strong>
+              <span>
+                — The
+                <code>Average purchase revenue</code>
+                metric is built in. For average items per order, use
+                <strong>Explore</strong>
+                with a custom calculated metric:
+                <code>items_purchased ÷ transactions</code>
+                .
+              </span>
+            </div>
+          </div>
+
+          <h3>Cart Abandonment %</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Explore → Funnel Exploration</strong>
+              <span>
+                — Build a funnel with these steps:
+                <code>add_to_cart</code>
+                →
+                <code>begin_checkout</code>
+                →
+                <code>purchase</code>
+                . GA4 shows the percentage drop-off at each step automatically. The gap between
+                <code>add_to_cart</code>
+                and
+                <code>purchase</code>
+                is your abandoned cart rate.
+              </span>
+            </div>
+          </div>
+
+          <h3>Individual Transaction Drill-Down</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Reports → Monetization → Ecommerce Purchases</strong>
+              <span>
+                — Click any
+                <code>Transaction ID</code>
+                in the table to see a full breakdown: every item, quantity, unit price, revenue, tax, and shipping for
+                that specific order.
+              </span>
+            </div>
+          </div>
+
+          <h3>Coupon Code Performance</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Explore → Free Form Exploration</strong>
+              <span>
+                — Add
+                <code>Coupon Code</code>
+                (your custom dimension) as a row, and
+                <code>Purchase revenue</code>
+                ,
+                <code>Transactions</code>
+                , and
+                <code>Average purchase revenue</code>
+                as values. This shows you which discount codes drive the most revenue, how often they're used, and
+                whether they increase or decrease average order value.
+              </span>
+            </div>
+          </div>
+
+          <h3>New vs. Returning Customers</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Explore → Free Form Exploration</strong>
+              <span>
+                — Add
+                <code>Customer Type</code>
+                (your custom dimension) as a row, with
+                <code>Purchase revenue</code>
+                ,
+                <code>Transactions</code>
+                , and
+                <code>Average purchase revenue</code>
+                as values. Compare new vs. returning buyer behavior — are returning customers spending more per order?
+                What percentage of revenue comes from repeat buyers?
+              </span>
+            </div>
+          </div>
+
+          <h3>Shipping Method Preferences</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Explore → Free Form Exploration</strong>
+              <span>
+                — Add
+                <code>Shipping Method</code>
+                (your custom dimension) as a row, with
+                <code>Transactions</code>
+                and
+                <code>Purchase revenue</code>
+                as values. See which shipping options customers choose most, and whether offering faster shipping
+                correlates with higher order values.
+              </span>
+            </div>
+          </div>
+
+          <h3>Coupon Impact on Checkout Completion</h3>
+          <div class="step" style="margin-bottom: 10px">
+            <div class="step-num">→</div>
+            <div class="step-content">
+              <strong>Explore → Funnel Exploration</strong>
+              <span>
+                — Build a funnel (
+                <code>begin_checkout</code>
+                →
+                <code>purchase</code>
+                ) and add
+                <code>Coupon Code</code>
+                as a breakdown dimension. This reveals whether customers using discount codes complete checkout at
+                higher rates than those who don't — a key insight for deciding whether to promote coupons more
+                aggressively.
+              </span>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <span class="icon">📊</span>
+            <div>
+              <strong>Pro tip — save your Explorations.</strong>
+              GA4 Explorations (funnels, cohorts, segments) don't appear in standard reports. Build each one, then click
+              the three-dot menu and
+              <strong>"Share exploration"</strong>
+              with your team so everyone can access the same views without rebuilding them.
+            </div>
+          </div>
+
+          <h3>Quick Reference</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>GA4 Location</th>
+                <th>Requires</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Active logged-in users</td>
+                <td>Reports → User acquisition</td>
+                <td>User-ID (Step 6 - Google Tag)</td>
+              </tr>
+              <tr>
+                <td>Regular buyers (2+/4wk)</td>
+                <td>Explore → Cohort / Segment</td>
+                <td>purchase event ✓</td>
+              </tr>
+              <tr>
+                <td>Average cart / order value</td>
+                <td>Reports → Monetization</td>
+                <td>purchase event ✓</td>
+              </tr>
+              <tr>
+                <td>Abandoned cart %</td>
+                <td>Explore → Funnel Exploration</td>
+                <td>add_to_cart + purchase ✓</td>
+              </tr>
+              <tr>
+                <td>Individual transactions</td>
+                <td>Reports → Ecommerce Purchases</td>
+                <td>transaction_id ✓</td>
+              </tr>
+              <tr>
+                <td>Coupon code performance</td>
+                <td>Explore → Free Form</td>
+                <td>
+                  Custom dimension:
+                  <code>coupon_code</code>
+                </td>
+              </tr>
+              <tr>
+                <td>New vs. returning revenue</td>
+                <td>Explore → Free Form</td>
+                <td>
+                  Custom dimension:
+                  <code>customer_type</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Shipping method breakdown</td>
+                <td>Explore → Free Form</td>
+                <td>
+                  Custom dimension:
+                  <code>shipping_method</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Coupon impact on conversion</td>
+                <td>Explore → Funnel + breakdown</td>
+                <td>
+                  Custom dimension:
+                  <code>coupon_code</code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- ── EXPORT & REUSE ── -->
+        <section id="export-import">
+          <h2>
+            <span class="num">✦</span>
+            Export &amp; Reuse on New Sites
+          </h2>
+          <p>
+            Once your GTM container is working, you can export it and import it into a new container for another Shopify
+            store. This carries over all your tags, triggers, and variables — saving significant setup time.
+          </p>
+
+          <h3>Exporting Your GTM Container</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>In GTM, click Admin</strong>
+                <span>(gear icon in the top nav)</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content"><strong>Under your container, click "Export Container"</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Choose the version to export</strong>
+                <span>— select your latest published version (e.g., "v1 - Shopify GA4 Ecommerce")</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Download the JSON file</strong>
+                <span>— save it somewhere your team can access it (shared drive, Git repo, etc.)</span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Importing into a New Container</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Create a new GTM container</strong>
+                <span>for the new Shopify store (type: Web)</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content"><strong>In the new container, click Admin → Import Container</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Upload the JSON file</strong>
+                <span>you exported</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Choose workspace:</strong>
+                <span>"New" or "Existing" (select your default workspace)</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>Choose import option:</strong>
+                <span>
+                  Use
+                  <strong>"Merge"</strong>
+                  if the container already has tags you want to keep, or
+                  <strong>"Overwrite"</strong>
+                  for a clean start
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">6</div>
+              <div class="step-content">
+                <strong>Review the import preview</strong>
+                <span>— GTM will show you exactly what will be added/changed</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">7</div>
+              <div class="step-content"><strong>Confirm the import</strong></div>
+            </div>
+          </div>
+
+          <h3>What You'll Need to Change on the New Site</h3>
+          <p>The import carries over everything, but some values are site-specific and must be updated:</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>What to Update</th>
+                <th>Where in GTM</th>
+                <th>Change To</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>GA4 Measurement ID</strong></td>
+                <td>Google Tag → Tag ID</td>
+                <td>
+                  The new site's
+                  <code>G-XXXXXXXXXX</code>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>GTM Container ID in pixel code</strong></td>
+                <td>Shopify Custom Pixel code (Step 3)</td>
+                <td>
+                  The new container's
+                  <code>GTM-XXXXXXX</code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>If you used a GTM variable for your Measurement ID</strong>
+              (like
+              <code>{{GA4 Measurement ID}}</code>
+              instead of hardcoding the G- ID), you only need to update that one variable. All tags that reference it
+              will automatically use the new value.
+            </div>
+          </div>
+
+          <h3>What Doesn't Export</h3>
+          <p>
+            The GTM container export includes all tags, triggers, and variables. However, these items live
+            <em>outside</em>
+            of GTM and must be set up separately for each new site:
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Where to Set Up</th>
+                <th>Reference</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Shopify Custom Pixel</td>
+                <td>Shopify Admin → Settings → Customer Events</td>
+                <td>Steps 2–3 of this guide</td>
+              </tr>
+              <tr>
+                <td>GA4 property + data stream</td>
+                <td>GA4 Admin</td>
+                <td>Create new property per site</td>
+              </tr>
+              <tr>
+                <td>Custom dimensions</td>
+                <td>GA4 Admin → Custom Definitions</td>
+                <td>
+                  <a
+                    href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#ga4-admin"
+                    style="color: var(--accent2)"
+                  >
+                    GA4 Admin Setup
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Reporting Identity</td>
+                <td>GA4 Admin → Reporting Identity</td>
+                <td>
+                  <a
+                    href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#ga4-admin"
+                    style="color: var(--accent2)"
+                  >
+                    GA4 Admin Setup
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Internal traffic filter</td>
+                <td>GA4 Admin → Data Settings → Data Filters</td>
+                <td>
+                  <a
+                    href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#ga4-admin"
+                    style="color: var(--accent2)"
+                  >
+                    GA4 Admin Setup
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Enhanced Measurement settings</td>
+                <td>GA4 Admin → Data Streams</td>
+                <td>
+                  <a
+                    href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#ga4-admin"
+                    style="color: var(--accent2)"
+                  >
+                    GA4 Admin Setup
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Key events</td>
+                <td>GA4 Admin → Events</td>
+                <td>
+                  <a
+                    href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#ga4-admin"
+                    style="color: var(--accent2)"
+                  >
+                    GA4 Admin Setup
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Google &amp; YouTube app settings</td>
+                <td>Shopify Admin → Google &amp; YouTube</td>
+                <td>
+                  <a
+                    href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#google-youtube-app"
+                    style="color: var(--accent2)"
+                  >
+                    Google &amp; YouTube App
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>Third-party scripts (theme.liquid)</td>
+                <td>Shopify theme editor</td>
+                <td>
+                  <a
+                    href="file:///Users/marion/Downloads/GTM-Shopify-Setup-Guide_10.html#third-party"
+                    style="color: var(--accent2)"
+                  >
+                    Third-Party Scripts
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>New Site Setup Checklist</h3>
+          <p>When setting up a new Shopify store, follow this order:</p>
+          <ul class="checklist">
+            <li>
+              <div class="check"></div>
+              Create new GTM container (Web type)
+            </li>
+            <li>
+              <div class="check"></div>
+              Import the exported container JSON
+            </li>
+            <li>
+              <div class="check"></div>
+              Update the GA4 Measurement ID in the Google Tag
+            </li>
+            <li>
+              <div class="check"></div>
+              Create the Shopify Custom Pixel with the new GTM container ID
+            </li>
+            <li>
+              <div class="check"></div>
+              Paste the Custom Pixel code (update the
+              <code>GTM_ID</code>
+              constant at the top)
+            </li>
+            <li>
+              <div class="check"></div>
+              Set up GA4 property: custom dimensions, reporting identity, data filters, Enhanced Measurement
+            </li>
+            <li>
+              <div class="check"></div>
+              Configure Google &amp; YouTube app (connect Ads, disconnect Analytics)
+            </li>
+            <li>
+              <div class="check"></div>
+              Add unwanted referrals in GA4:
+              <code>checkout.shopify.com</code>
+              ,
+              <code>shop.app</code>
+              ,
+              <code>pay.shopify.com</code>
+            </li>
+            <li>
+              <div class="check"></div>
+              Add any theme.liquid scripts (ZoomInfo, Hotjar, etc.)
+            </li>
+            <li>
+              <div class="check"></div>
+              Optionally enable
+              <code>debug_mode</code>
+              , publish, and test the full funnel
+            </li>
+            <li>
+              <div class="check"></div>
+              Remove temporary
+              <code>debug_mode</code>
+              and publish final version
+            </li>
+            <li>
+              <div class="check"></div>
+              Mark key events in GA4 (purchase, begin_checkout, add_to_cart)
+            </li>
+          </ul>
+        </section>
+
+        <!-- ── GOOGLE & YOUTUBE APP ── -->
+        <section id="google-youtube-app">
+          <h2>
+            <span class="num">✦</span>
+            Google &amp; YouTube App Settings
+          </h2>
+          <p>
+            If your Shopify store has the
+            <strong>Google &amp; YouTube app</strong>
+            installed, keep it for product feed sync and Google Ads connectivity — but configure it carefully to avoid
+            duplicate tracking with your Custom Pixel + GTM setup.
+          </p>
+
+          <h3>What the App Does</h3>
+          <p>
+            The Google &amp; YouTube app can connect multiple Google services to your Shopify store. Each serves a
+            different purpose, and not all of them conflict with your GTM setup:
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Connected Service</th>
+                <th>What It Does</th>
+                <th>Conflicts with GTM?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Google Ads</strong></td>
+                <td>Powers product feed sync for Google Shopping and Merchant Center free listings</td>
+                <td>🟢 No conflict — keep connected</td>
+              </tr>
+              <tr>
+                <td><strong>Google Analytics</strong></td>
+                <td>Installs its own GA4 measurement tag that sends page views and ecommerce events</td>
+                <td>
+                  🔴
+                  <strong>Duplicates your Custom Pixel tracking</strong>
+                  — disconnect
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Conversion measurement</strong></td>
+                <td>Adds Google Ads and GA4 conversion tags managed by the app</td>
+                <td>
+                  🔴
+                  <strong>Duplicates your GTM conversion tracking</strong>
+                  — leave off
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Customer Match</strong></td>
+                <td>Builds audience lists from customer data for Google Ads targeting</td>
+                <td>🟢 No conflict — can enable later</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Recommended Settings</h3>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content"><strong>Go to Shopify Admin → Google &amp; YouTube → Settings</strong></div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Google Ads → Keep connected</strong>
+                <span>
+                  — this powers your product feed for Shopping campaigns and free listings. It does not conflict with
+                  your GTM ecommerce tracking.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Google Analytics → Disconnect</strong>
+                <span>
+                  — your Custom Pixel + GTM setup is more comprehensive than what the app provides. Keeping GA4
+                  connected here will create duplicate
+                  <code>page_view</code>
+                  ,
+                  <code>purchase</code>
+                  , and other events.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Conversion measurement → Leave OFF</strong>
+                <span>
+                  — since you're handling conversion tracking through your Custom Pixel → GTM → GA4 pipeline, turning
+                  this on creates duplicate conversion events.
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>Customer Match → Leave OFF for now</strong>
+                <span>
+                  — this is safe to enable later once your base tracking is verified and stable. It automatically builds
+                  audience lists from customer data for Google Ads.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>Don't disconnect Google Ads.</strong>
+              Even though you're tracking conversions through GTM, the Google Ads connection in this app handles your
+              product feed sync for Google Shopping / Merchant Center. Disconnecting it will break your Shopping
+              campaigns and free product listings.
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>Enhanced Conversions:</strong>
+              If you later want Enhanced Conversions for Google Ads (hashed email/phone data for better conversion match
+              rates), the Google &amp; YouTube app handles this more seamlessly than GTM in the Custom Pixel sandbox.
+              You can revisit the Conversion measurement toggle at that point — but test carefully for duplicate events
+              in GA4 DebugView before leaving it on.
+            </div>
+          </div>
+
+          <h3>After Disconnecting GA4</h3>
+          <p>
+            Once you disconnect Google Analytics from the app, verify in GA4 DebugView that you're not seeing duplicate
+            events. You should see
+            <strong>one</strong>
+            <code>page_view</code>
+            per page load and
+            <strong>one</strong>
+            <code>purchase</code>
+            per order — not two of each. If you still see duplicates, check for legacy GA4 tags in your Shopify theme
+            files or other Shopify apps that might be injecting tracking.
+          </p>
+
+          <h3>Google &amp; YouTube App Checklist</h3>
+          <ul class="checklist">
+            <li>
+              <div class="check"></div>
+              Google Ads — connected (for product feed / Shopping)
+            </li>
+            <li>
+              <div class="check"></div>
+              Google Analytics — disconnected (Custom Pixel handles this)
+            </li>
+            <li>
+              <div class="check"></div>
+              Conversion measurement — OFF
+            </li>
+            <li>
+              <div class="check"></div>
+              Customer Match — OFF for now (enable once tracking is stable)
+            </li>
+            <li>
+              <div class="check"></div>
+              Verified no duplicate events in GA4 DebugView after changes
+            </li>
+          </ul>
+        </section>
+
+        <!-- ── THIRD-PARTY SCRIPTS ── -->
+        <section id="third-party">
+          <h2>
+            <span class="num">✦</span>
+            Third-Party Scripts: Where They Go
+          </h2>
+          <p>
+            Shopify's Custom Pixel runs in a sandboxed iFrame, which means some scripts work inside it and others don't.
+            The deciding factor is whether the script needs
+            <strong>DOM access</strong>
+            (the ability to see, read, or modify elements on the actual page).
+          </p>
+
+          <h3>The Rule</h3>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">→</div>
+              <div class="step-content">
+                <strong>Does it just need to know what happened?</strong>
+                <span>
+                  (user bought something, viewed a product, added to cart) →
+                  <span class="badge green">GTM via Custom Pixel</span>
+                  — it only needs data layer events
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">→</div>
+              <div class="step-content">
+                <strong>Does it need to see or touch the page?</strong>
+                <span>
+                  (record a session, show a widget, read form fields, inject UI) →
+                  <span class="badge orange">theme.liquid</span>
+                  — it needs full DOM access
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Scripts That Go in theme.liquid (Require DOM Access)</h3>
+          <p>
+            Add these directly to your Shopify theme:
+            <strong>Online Store → Themes → Edit Code → theme.liquid</strong>
+            , just before the closing
+            <code>&lt;/head&gt;</code>
+            tag.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Script</th>
+                <th>Why It Needs DOM</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>ZoomInfo</strong></td>
+                <td>Visitor identification, form enrichment</td>
+                <td>Reads page content and injects into form fields</td>
+              </tr>
+              <tr>
+                <td><strong>Hotjar</strong></td>
+                <td>Session recording, heatmaps</td>
+                <td>Records the entire DOM and user interactions</td>
+              </tr>
+              <tr>
+                <td><strong>Microsoft Clarity</strong></td>
+                <td>Session recording, heatmaps</td>
+                <td>Same as Hotjar — needs to observe DOM changes</td>
+              </tr>
+              <tr>
+                <td><strong>Crazy Egg</strong></td>
+                <td>Heatmaps, click tracking</td>
+                <td>Overlays click data on actual page elements</td>
+              </tr>
+              <tr>
+                <td><strong>Lucky Orange</strong></td>
+                <td>Session replay, heatmaps</td>
+                <td>Records DOM state and user interactions</td>
+              </tr>
+              <tr>
+                <td><strong>Drift / Intercom / LiveChat</strong></td>
+                <td>Chat widgets</td>
+                <td>Renders a visible widget on the page</td>
+              </tr>
+              <tr>
+                <td><strong>OptinMonster / Privy</strong></td>
+                <td>Popups, overlays, banners</td>
+                <td>Injects modal/popup elements into the DOM</td>
+              </tr>
+              <tr>
+                <td><strong>Accessibility tools</strong></td>
+                <td>Widget overlays</td>
+                <td>Tools like AccessiBe, UserWay that modify the page</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout info">
+            <span class="icon">ℹ️</span>
+            <div>
+              <strong>theme.liquid limitation:</strong>
+              Scripts added here will fire on every page
+              <em>except</em>
+              checkout. For most of these tools (session recording, chat widgets, visitor ID), that's fine — they don't
+              need checkout page access. Checkout is on a separate Shopify-hosted domain.
+            </div>
+          </div>
+
+          <h3>Scripts That Go in GTM via Custom Pixel (Event-Based Only)</h3>
+          <p>
+            These fire based on data layer events and don't need to see the page. Add them as
+            <strong>tags in GTM</strong>
+            using the same Custom Event triggers you created in Step 5.
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Script</th>
+                <th>What It Tracks</th>
+                <th>GTM Tag Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Meta Pixel (Facebook)</strong></td>
+                <td>Purchase, Add to Cart, View Content, etc.</td>
+                <td>Custom HTML or Meta Pixel template</td>
+              </tr>
+              <tr>
+                <td><strong>TikTok Pixel</strong></td>
+                <td>Purchase, Add to Cart, View Content</td>
+                <td>Custom HTML or TikTok template</td>
+              </tr>
+              <tr>
+                <td><strong>Pinterest Tag</strong></td>
+                <td>Checkout, Add to Cart, Page Visit</td>
+                <td>Custom HTML or Pinterest template</td>
+              </tr>
+              <tr>
+                <td><strong>Snapchat Pixel</strong></td>
+                <td>Purchase, Add to Cart</td>
+                <td>Custom HTML</td>
+              </tr>
+              <tr>
+                <td><strong>Reddit Pixel</strong></td>
+                <td>Purchase, Add to Cart, Page Visit</td>
+                <td>Custom HTML</td>
+              </tr>
+              <tr>
+                <td><strong>Klaviyo</strong></td>
+                <td>Ecommerce events for email flows</td>
+                <td>Custom HTML</td>
+              </tr>
+              <tr>
+                <td><strong>Google Ads conversions</strong></td>
+                <td>Purchase, Begin Checkout</td>
+                <td>Google Ads Conversion Tracking tag</td>
+              </tr>
+              <tr>
+                <td><strong>Bing/Microsoft Ads</strong></td>
+                <td>Purchase, Add to Cart</td>
+                <td>Custom HTML or UET tag template</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout tip">
+            <span class="icon">💡</span>
+            <div>
+              <strong>No pixel code changes needed.</strong>
+              Since all these event-based pixels read from the same data layer that your Custom Pixel code already
+              populates, you just create new GTM tags that fire on the existing Custom Event triggers (CE - Purchase, CE
+              - Add to Cart, etc.). The Shopify pixel code stays exactly the same.
+            </div>
+          </div>
+
+          <h3>Quick Decision Guide</h3>
+          <p>When evaluating a new script for a Shopify site, ask these questions:</p>
+
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Does it render something visible on the page?</strong>
+                <span>
+                  (chat bubble, popup, overlay, widget) →
+                  <span class="badge orange">theme.liquid</span>
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Does it record or observe user behavior on the page?</strong>
+                <span>
+                  (session replay, heatmap, click tracking) →
+                  <span class="badge orange">theme.liquid</span>
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Does it read or modify form fields?</strong>
+                <span>
+                  (form enrichment, auto-fill, validation) →
+                  <span class="badge orange">theme.liquid</span>
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Does it only fire on specific events?</strong>
+                <span>
+                  (purchase, add to cart, page view) →
+                  <span class="badge green">GTM via Custom Pixel</span>
+                </span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <strong>Not sure?</strong>
+                <span>
+                  Check the script's documentation for mentions of "DOM", "element", "selector", "widget", or "inject".
+                  If you see those →
+                  <span class="badge orange">theme.liquid</span>
+                  . If the docs only mention "events", "conversions", or "pixels" →
+                  <span class="badge green">GTM via Custom Pixel</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <span class="icon">⚠️</span>
+            <div>
+              <strong>Never add the same script in both places.</strong>
+              If a script is in theme.liquid AND in a GTM tag that fires from the Custom Pixel, you'll get duplicate
+              tracking. Pick one location per script.
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      function copyCode(id) {
+        const pre = document.getElementById(id);
+        const text = pre ? pre.innerText : "";
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = event.target;
+          btn.textContent = "Copied!";
+          btn.style.background = "#4DB8D9";
+          btn.style.color = "#000";
+          btn.style.borderColor = "#4DB8D9";
+          setTimeout(() => {
+            btn.textContent = "Copy";
+            btn.style.background = "";
+            btn.style.color = "";
+            btn.style.borderColor = "";
+          }, 2000);
+        });
+      }
+
+      // Active nav highlighting
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll("nav a");
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 80) current = s.id;
+        });
+        navLinks.forEach((a) => {
+          a.classList.toggle("active", a.getAttribute("href") === "#" + current);
+        });
+      });
+    </script>
+  </body>
+</html>
